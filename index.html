@@ -1,694 +1,1199 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Northern Italy — Destinasi Premium Minimalis</title>
-    <!-- Load Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Konfigurasi Tailwind untuk Font Inter dan Palet Warna Premium -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'primary': '#003366', // Deep Navy Blue (Premium)
-                        'accent': '#B8860B', // Dark Gold/Bronze
-                        'bg-light': '#F8F8F8', // Off-White
-                        'text-dark': '#333333',
-                        'bg-dark': '#1C1C1C', // Dark Charcoal
-                        'text-light': '#E0E0E0',
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    // Animasi untuk simulasi scroll/reveal
-                    animation: {
-                        'slide-up': 'slideUp 0.6s ease-out forwards',
-                    },
-                    keyframes: {
-                        slideUp: {
-                            '0%': { opacity: 0, transform: 'translateY(20px)' },
-                            '100%': { opacity: 1, transform: 'translateY(0)' },
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        /* Gaya dasar untuk Dark/Light Mode */
-        .light {
-            background-color: theme('colors.bg-light');
-            color: theme('colors.text-dark');
-        }
-        .dark {
-            background-color: theme('colors.bg-dark');
-            color: theme('colors.text-light');
-        }
-        /* Sidebar tetap tersembunyi secara default, hanya muncul di mobile */
-        #sidebar-menu {
-            transition: transform 0.3s ease-in-out;
-            transform: translateX(100%);
-        }
-        #sidebar-menu.active {
-            transform: translateX(0);
-        }
-        /* Styling untuk Parallax/Video Background (Simulasi) */
-        .hero-bg {
-            background-image: url('https://placehold.co/1920x1080/003366/FFFFFF?text=Pemandangan+Danau+Como');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed; /* Efek Parallax */
-            height: 80vh;
-        }
-    </style>
-</head>
-<body class="light font-sans transition-colors duration-500" x-data="{ isMenuOpen: false }">
-
-    <!-- 1.a & 1.g: Header / Navbar (Navigasi Utama & Responsif) -->
-    <header class="sticky top-0 z-40 shadow-lg backdrop-blur-md bg-opacity-80 dark:bg-opacity-80 transition-all duration-300 dark:bg-bg-dark bg-bg-light">
-        <nav class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-            <!-- Logo Brand -->
-            <a href="#" class="text-2xl font-bold tracking-wider text-primary dark:text-accent">Northern Italia</a>
-
-            <!-- Navigasi Desktop -->
-            <div class="hidden lg:flex space-x-8 items-center">
-                <a href="#destinasi" class="nav-link">Destinasi</a>
-                <a href="#galeri" class="nav-link">Galeri</a>
-                <a href="#reservasi" class="nav-link">Reservasi</a>
-                <a href="#blog" class="nav-link">Blog</a>
-                <a href="#kontak" class="nav-link">Kontak</a>
-
-                <!-- 1.e: Search Bar Desktop -->
-                <div class="relative">
-                    <input type="text" placeholder="Cari..." class="py-1 px-3 border border-gray-300 dark:border-gray-700 rounded-full text-sm dark:bg-bg-dark bg-bg-light focus:outline-none focus:ring-2 focus:ring-accent transition duration-300">
-                    <button class="absolute right-0 top-0 mt-1 mr-2 text-gray-500 dark:text-gray-400">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Kontrol Aksi: Dark/Light & Bahasa -->
-            <div class="flex items-center space-x-4">
-                <!-- 2.d & 3.m: Multibahasa (Language Switcher) -->
-                <button id="lang-switcher" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 transition duration-300 text-sm font-medium border border-primary dark:border-accent dark:text-accent text-primary">ID/EN</button>
-
-                <!-- 2.a & 3.p: Dark / Light Mode Toggle -->
-                <button id="dark-mode-toggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 transition duration-300">
-                    <!-- Icon Light Mode (Sun) -->
-                    <svg id="sun-icon" class="w-6 h-6 hidden text-yellow-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3a9 9 0 109 9c0-.62-.1-1.22-.29-1.78a.99.99 0 00-1.88.58 7 7 0 11-7.85 7.85c-.3-.8-.47-1.66-.47-2.57 0-4.96 4.04-9 9-9z"></path></svg>
-                    <!-- Icon Dark Mode (Moon) -->
-                    <svg id="moon-icon" class="w-6 h-6 text-gray-700 dark:text-gray-300" fill="currentColor" viewBox="0 0 24 24"><path d="M20 15a8 8 0 11-8-8c0 4.41 3.59 8 8 8zM2 12a10 10 0 1020 0 10 10 0 00-20 0z"></path></svg>
-                </button>
-
-                <!-- Tombol Menu Mobile -->
-                <button id="menu-toggle" class="lg:hidden p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 transition duration-300">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
-                </button>
-            </div>
-        </nav>
-    </header>
-
-    <!-- 1.d: Sidebar (Mobile) -->
-    <div id="sidebar-menu" class="fixed top-0 right-0 h-full w-64 bg-bg-light dark:bg-gray-900 shadow-2xl z-50 p-6 lg:hidden flex flex-col items-start space-y-4">
-        <button id="close-menu" class="absolute top-4 right-4 p-2 text-primary dark:text-text-light">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-        </button>
-        <h3 class="text-lg font-bold mb-4 mt-8 text-primary dark:text-accent">Menu</h3>
-        <a href="#destinasi" class="sidebar-link">Destinasi</a>
-        <a href="#galeri" class="sidebar-link">Galeri</a>
-        <a href="#reservasi" class="sidebar-link">Reservasi</a>
-        <a href="#blog" class="sidebar-link">Blog</a>
-        <a href="#kontak" class="sidebar-link">Kontak</a>
-        <hr class="w-full border-gray-300 dark:border-gray-700 my-4">
-        <!-- 1.e: Search Bar Mobile -->
-        <input type="text" placeholder="Cari..." class="w-full py-2 px-4 border border-gray-300 dark:border-gray-700 rounded-lg text-sm dark:bg-bg-dark bg-bg-light focus:outline-none focus:ring-2 focus:ring-accent transition duration-300">
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gintar Nugroho - Young Spirit Portfolio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&amp;family=Caveat:wght@400;700&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    :root {
+      --primary: #FF6B6B;
+      --primary-light: #FFE5E5;
+      --secondary: #4ECDC4;
+      --dark: #2D3436;
+      --light: #FAFAFA;
+      --accent: #FFD93D;
+    }
+    
+    * {
+      scroll-behavior: smooth;
+    }
+    
+    html, body {
+      height: 100%;
+    }
+    
+    main {
+      min-height: 100%;
+    }
+    
+    .font-brand {
+      font-family: 'Caveat', cursive;
+    }
+    
+    .font-body {
+      font-family: 'Poppins', system-ui, sans-serif;
+    }
+    
+    /* Background Gradients */
+    .bg-hero {
+      background: linear-gradient(135deg, #fff5f7 0%, #f0f9ff 100%);
+    }
+    
+    .bg-section-light {
+      background: #FAFAFA;
+    }
+    
+    .bg-section-dark {
+      background: linear-gradient(135deg, #2D3436 0%, #1a1a1a 100%);
+    }
+    
+    /* Card Styles */
+    .card-modern {
+      background: white;
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .card-modern:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 40px rgba(255, 107, 107, 0.15);
+    }
+    
+    .card-dark {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 24px;
+      color: white;
+      transition: all 0.3s ease;
+    }
+    
+    .card-dark:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+    
+    /* Buttons */
+    .btn-primary {
+      background: linear-gradient(135deg, #FF6B6B, #FF8E72);
+      color: white;
+      padding: 12px 32px;
+      border-radius: 50px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
+    }
+    
+    .btn-secondary {
+      background: transparent;
+      color: #FF6B6B;
+      padding: 12px 32px;
+      border-radius: 50px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      border: 2px solid #FF6B6B;
+      cursor: pointer;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .btn-secondary:hover {
+      background: #FF6B6B;
+      color: white;
+    }
+    
+    /* Badges */
+    .badge {
+      display: inline-block;
+      background: #FFE5E5;
+      color: #FF6B6B;
+      padding: 8px 16px;
+      border-radius: 50px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .badge-accent {
+      background: rgba(255, 217, 61, 0.2);
+      color: #FFD93D;
+    }
+    
+    .badge-secondary {
+      background: rgba(78, 205, 196, 0.2);
+      color: #4ECDC4;
+    }
+    
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-20px);
+      }
+    }
+    
+    @keyframes pulse-glow {
+      0%, 100% {
+        box-shadow: 0 0 20px rgba(255, 107, 107, 0.4);
+      }
+      50% {
+        box-shadow: 0 0 40px rgba(255, 107, 107, 0.6);
+      }
+    }
+    
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    
+    .animate-fadeInUp {
+      animation: fadeInUp 0.8s ease forwards;
+    }
+    
+    .animate-float {
+      animation: float 3s ease-in-out infinite;
+    }
+    
+    .animate-pulse-glow {
+      animation: pulse-glow 2s ease-in-out infinite;
+    }
+    
+    .stagger-1 { animation-delay: 0.1s; }
+    .stagger-2 { animation-delay: 0.2s; }
+    .stagger-3 { animation-delay: 0.3s; }
+    .stagger-4 { animation-delay: 0.4s; }
+    .stagger-5 { animation-delay: 0.5s; }
+    
+    /* Hero Avatar */
+    .avatar-wrapper {
+      position: relative;
+      width: 280px;
+      height: 280px;
+      margin: 0 auto;
+    }
+    
+    .avatar-circle {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #FF6B6B, #FFD93D);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 120px;
+      animation: pulse-glow 2s ease-in-out infinite;
+    }
+    
+    .avatar-badge {
+      position: absolute;
+      bottom: 20px;
+      right: 0;
+      background: #4ECDC4;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 50px;
+      font-size: 12px;
+      font-weight: 700;
+      box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+    }
+    
+    /* Skill Bar */
+    .skill-bar-bg {
+      background: #EEE;
+      border-radius: 50px;
+      height: 8px;
+      overflow: hidden;
+    }
+    
+    .skill-bar-fill {
+      background: linear-gradient(90deg, #FF6B6B, #FFD93D);
+      height: 100%;
+      border-radius: 50px;
+      transition: width 1s ease-out;
+    }
+    
+    /* Header Nav */
+    .header-fixed {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+    }
+    
+    .nav-link {
+      position: relative;
+      color: #2D3436;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+    
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #FF6B6B, #FFD93D);
+      transition: width 0.3s ease;
+    }
+    
+    .nav-link:hover::after {
+      width: 100%;
+    }
+    
+    /* Mobile Menu */
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 100%;
+      height: 100vh;
+      background: white;
+      z-index: 999;
+      transition: right 0.3s ease;
+      padding-top: 80px;
+    }
+    
+    .mobile-menu.active {
+      right: 0;
+    }
+    
+    /* Section Title */
+    .section-title {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+    
+    .section-title .badge {
+      display: block;
+      margin-bottom: 16px;
+    }
+    
+    .section-title h2 {
+      font-size: clamp(28px, 5vw, 48px);
+      color: #2D3436;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+    
+    .section-title p {
+      color: #666;
+      font-size: 16px;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    
+    /* Portfolio Grid */
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+    
+    .portfolio-card {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+    }
+    
+    .portfolio-card:hover {
+      transform: translateY(-12px);
+      box-shadow: 0 12px 40px rgba(255, 107, 107, 0.2);
+    }
+    
+    .portfolio-img {
+      width: 100%;
+      height: 200px;
+      background: linear-gradient(135deg, #FFE5E5, #E3F2FD);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 60px;
+    }
+    
+    .portfolio-content {
+      padding: 20px;
+    }
+    
+    /* Form Styles */
+    .form-input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #EEE;
+      border-radius: 12px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+    
+    .form-input:focus {
+      outline: none;
+      border-color: #FF6B6B;
+      box-shadow: 0 0 0 4px rgba(255, 107, 107, 0.1);
+    }
+    
+    /* Scroll Progress */
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #FF6B6B, #FFD93D);
+      z-index: 9999;
+      transition: width 0.1s ease;
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full font-body bg-light text-dark" style="background-color: #FAFAFA;"><!-- Scroll Progress Bar -->
+  <div class="scroll-progress" id="scrollProgress"></div><!-- Header Fixed -->
+  <header class="header-fixed" id="header" style="box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+   <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between"><!-- Logo -->
+    <div class="flex items-center gap-2">
+     <div class="w-12 h-12 bg-gradient-to-br from-red-500 to-yellow-400 rounded-full flex items-center justify-center animate-pulse-glow"><span class="font-brand text-2xl font-bold text-white">G</span>
+     </div>
+     <div>
+      <h1 id="site-name" class="font-brand text-xl font-bold" style="color: #2D3436;">Gintar Nugroho</h1>
+      <p id="tagline" class="text-xs opacity-70" style="color: #666;">Young Spirit</p>
+     </div>
+    </div><!-- Desktop Navigation -->
+    <nav class="hidden md:flex gap-8"><a href="#home" class="nav-link">Home</a> <a href="#about" class="nav-link">About</a> <a href="#skills" class="nav-link">Skills</a> <a href="#portfolio" class="nav-link">Portfolio</a> <a href="#experience" class="nav-link">Experience</a> <a href="#contact" class="nav-link">Contact</a>
+    </nav><!-- Language Switcher -->
+    <div class="hidden md:flex items-center gap-2 ml-4"><button id="langBtn-id" class="lang-btn active px-4 py-2 rounded-full font-semibold transition-all" style="background: linear-gradient(135deg, #FF6B6B, #FFD93D); color: white;">ID</button> <button id="langBtn-en" class="lang-btn px-4 py-2 rounded-full font-semibold transition-all opacity-60 hover:opacity-100" style="color: #2D3436;">EN</button>
+    </div><!-- CTA Button Desktop --> <button class="hidden md:block btn-primary">Get Started</button> <!-- Mobile Menu Toggle --> <button id="mobileMenuBtn" class="md:hidden flex flex-col gap-1.5 p-2"> <span class="w-6 h-0.5 bg-gradient-to-r from-red-500 to-yellow-400 transition-all"></span> <span class="w-6 h-0.5 bg-gradient-to-r from-red-500 to-yellow-400 transition-all"></span> <span class="w-4 h-0.5 bg-gradient-to-r from-red-500 to-yellow-400 transition-all"></span> </button>
+   </div><!-- Mobile Menu -->
+   <nav id="mobileMenu" class="mobile-menu"><button id="closeMenuBtn" class="absolute top-6 right-6 text-3xl font-bold" style="color: #2D3436;">✕</button>
+    <div class="flex flex-col gap-6 px-6 text-center"><a href="#home" class="mobile-nav-link text-lg font-semibold" style="color: #2D3436;">Home</a> <a href="#about" class="mobile-nav-link text-lg font-semibold" style="color: #2D3436;">About</a> <a href="#skills" class="mobile-nav-link text-lg font-semibold" style="color: #2D3436;">Skills</a> <a href="#portfolio" class="mobile-nav-link text-lg font-semibold" style="color: #2D3436;">Portfolio</a> <a href="#experience" class="mobile-nav-link text-lg font-semibold" style="color: #2D3436;">Experience</a> <a href="#contact" class="mobile-nav-link text-lg font-semibold" style="color: #2D3436;">Contact</a> <!-- Mobile Language Switcher -->
+     <div class="flex gap-3 justify-center my-4 border-t border-b py-4"><button id="langBtn-id-mobile" class="lang-btn active px-6 py-2 rounded-full font-semibold transition-all" style="background: linear-gradient(135deg, #FF6B6B, #FFD93D); color: white;">Indonesian</button> <button id="langBtn-en-mobile" class="lang-btn px-6 py-2 rounded-full font-semibold transition-all opacity-60 hover:opacity-100" style="color: #2D3436;">English</button>
+     </div><button class="btn-primary w-full mt-4">Get Started</button>
     </div>
-
-
-    <!-- 1.b & 2.i: Hero Section (Bagian Utama Atas dengan Simulasi Video Background) -->
-    <section id="hero" class="hero-bg flex items-center justify-center text-center p-12 lg:p-24 relative overflow-hidden">
-        <!-- Overlay untuk Kontras Teks -->
-        <div class="absolute inset-0 bg-primary opacity-60 dark:opacity-70"></div>
-        <div class="relative z-10">
-            <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-bg-light mb-6 animate-slide-up" style="animation-delay: 0.1s;">
-                Pesona Abadi Northern Italia
-            </h1>
-            <p class="text-xl sm:text-2xl text-text-light mb-10 max-w-4xl mx-auto animate-slide-up" style="animation-delay: 0.3s;">
-                Temukan keindahan Danau Como, pegunungan Dolomiti, dan budaya kaya Milan dalam sentuhan premium.
-            </p>
-            <button class="btn-primary animate-slide-up" style="animation-delay: 0.5s;" onclick="openVirtualTour()">
-                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.55 4.55a.5.5 0 01-.35.85H5.8a.5.5 0 01-.35-.85L10 10m5 0v7a2 2 0 01-2 2H7a2 2 0 01-2-2v-7l5-5z"></path></svg>
-                Virtual Tour 360°
-            </button>
+   </nav>
+  </header>
+  <main class="w-full overflow-hidden"><!-- Hero Section -->
+   <section id="home" class="bg-hero pt-32 pb-16 md:pt-40 md:pb-24 px-6">
+    <div class="max-w-6xl mx-auto">
+     <div class="grid md:grid-cols-2 gap-12 items-center"><!-- Left Content -->
+      <div class="order-2 md:order-1">
+       <div class="animate-fadeInUp stagger-1"><span class="badge">🚀 Welcome to My World</span>
+        <h2 class="text-4xl md:text-6xl font-bold mt-6 leading-tight" style="color: #2D3436;">I'm <span style="background: linear-gradient(135deg, #FF6B6B, #FFD93D); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Gintar</span></h2>
+        <p id="hero-role" class="text-xl md:text-2xl font-semibold mt-4" style="color: #FF6B6B;">Public Speaker &amp; Web Designer</p>
+       </div>
+       <p id="hero-intro" class="text-lg opacity-80 mt-6 leading-relaxed animate-fadeInUp stagger-2" style="color: #2D3436; max-width: 500px;">Membangun kepercayaan diri melalui pengalaman dan praktik langsung dengan berpikir dan bertindak bebas sesuai aturan</p>
+       <div class="flex flex-col sm:flex-row gap-4 mt-8 animate-fadeInUp stagger-3"><a href="#portfolio" class="btn-primary text-center">📂 Lihat Portfolio</a> <a href="#contact" class="btn-secondary text-center">💬 Hubungi Saya</a>
+       </div>
+      </div><!-- Right Avatar -->
+      <div class="order-1 md:order-2 animate-fadeInUp stagger-4">
+       <div class="avatar-wrapper">
+        <div class="avatar-circle" style="background: linear-gradient(135deg, #FF6B6B, #FFD93D); overflow: hidden; display: flex; align-items: center; justify-content: center;"><img src="https://img.sanishtech.com/u/08cac41847131a16defba885307ef687.jpg" alt="Gintar Nugroho" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;" onerror="console.error('Image failed to load:', this.src); this.style.background='#e5e7eb'; this.alt='Image unavailable';">
         </div>
-    </section>
-
-    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
-
-        <!-- 3.g: Artikel / Blog Wisata (Bagian Sidebar/Konten Samping) -->
-        <div class="lg:flex lg:space-x-12">
-            <div class="lg:w-3/4">
-
-                <!-- 3.a: Deskripsi Destinasi Utama -->
-                <section id="destinasi" class="mb-20 animate-on-scroll">
-                    <h2 class="section-title">Destinasi Unggulan</h2>
-                    <p class="mb-10 max-w-3xl text-lg dark:text-gray-300">Northern Italy adalah perpaduan sempurna antara kemegahan alam dan warisan budaya. Jelajahi ikon-ikon utama kami.</p>
-
-                    <!-- Kartu Destinasi (3.a, 3.n) -->
-                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        <div class="bg-bg-light dark:bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
-                            <img src="https://placehold.co/600x400/003366/FFFFFF?text=Dolomiti" alt="Dolomiti" class="w-full h-48 object-cover rounded-lg mb-4">
-                            <h3 class="text-xl font-semibold mb-2 text-primary dark:text-accent">Dolomiti</h3>
-                            <p class="text-sm dark:text-gray-400 mb-4">Puncak-puncak batu kapur yang menakjubkan, sempurna untuk hiking dan ski. Keindahan alami yang tak tertandingi.</p>
-                            <a href="#" class="text-accent hover:text-primary dark:hover:text-bg-light transition-colors duration-300 font-medium text-sm inline-flex items-center">
-                                Detail & Tiket
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                            </a>
-                            <div class="mt-4 flex space-x-2">
-                                <span class="share-icon">FB</span>
-                                <span class="share-icon">IG</span>
-                            </div>
-                        </div>
-                        <div class="bg-bg-light dark:bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
-                            <img src="https://placehold.co/600x400/B8860B/003366?text=Milan" alt="Milan" class="w-full h-48 object-cover rounded-lg mb-4">
-                            <h3 class="text-xl font-semibold mb-2 text-primary dark:text-accent">Milan</h3>
-                            <p class="text-sm dark:text-gray-400 mb-4">Pusat mode dan desain Italia. Jelajahi Duomo yang megah dan galeri seni kelas dunia.</p>
-                            <a href="#" class="text-accent hover:text-primary dark:hover:text-bg-light transition-colors duration-300 font-medium text-sm inline-flex items-center">
-                                Detail & Tiket
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                            </a>
-                            <div class="mt-4 flex space-x-2">
-                                <span class="share-icon">FB</span>
-                                <span class="share-icon">IG</span>
-                            </div>
-                        </div>
-                        <div class="bg-bg-light dark:bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
-                            <img src="https://placehold.co/600x400/003366/FFFFFF?text=Venice" alt="Venice" class="w-full h-48 object-cover rounded-lg mb-4">
-                            <h3 class="text-xl font-semibold mb-2 text-primary dark:text-accent">Venesia</h3>
-                            <p class="text-sm dark:text-gray-400 mb-4">Kota kanal romantis yang unik. Nikmati gondola dan sejarah yang tak terhitung.</p>
-                            <a href="#" class="text-accent hover:text-primary dark:hover:text-bg-light transition-colors duration-300 font-medium text-sm inline-flex items-center">
-                                Detail & Tiket
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                            </a>
-                            <div class="mt-4 flex space-x-2">
-                                <span class="share-icon">FB</span>
-                                <span class="share-icon">IG</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 3.j: Filter Destinasi Berdasarkan Kategori -->
-                    <div class="mt-12">
-                        <h4 class="text-lg font-medium mb-3 dark:text-gray-200">Filter Berdasarkan Kategori:</h4>
-                        <div class="flex flex-wrap gap-3">
-                            <button class="filter-btn">Pegunungan</button>
-                            <button class="filter-btn">Kota</button>
-                            <button class="filter-btn">Danau & Air</button>
-                            <button class="filter-btn">Sejarah & Seni</button>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- 3.b & 3.i: Galeri Foto / Video & Virtual Tour -->
-                <section id="galeri" class="mb-20 animate-on-scroll">
-                    <h2 class="section-title">Galeri Keindahan Northern Italia</h2>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        <img src="https://placehold.co/300x300/333333/FFFFFF?text=Foto+1" class="gallery-img" alt="Foto Italia Utara 1">
-                        <img src="https://placehold.co/300x300/B8860B/FFFFFF?text=Foto+2" class="gallery-img" alt="Foto Italia Utara 2">
-                        <img src="https://placehold.co/300x300/003366/FFFFFF?text=Foto+3" class="gallery-img" alt="Foto Italia Utara 3">
-                        <img src="https://placehold.co/300x300/1C1C1C/FFFFFF?text=Foto+4" class="gallery-img" alt="Foto Italia Utara 4">
-                    </div>
-                    <div class="text-center mt-8">
-                        <button class="btn-secondary" onclick="openVirtualTour()">
-                            Tonton Virtual Tour (360°)
-                        </button>
-                    </div>
-                </section>
-
-                <!-- 3.c, 3.d, 3.h: Tiket, Jadwal, Fasilitas & Reservasi -->
-                <section id="reservasi" class="mb-20 bg-primary/5 dark:bg-gray-800 p-8 rounded-xl shadow-lg animate-on-scroll">
-                    <h2 class="section-title text-primary dark:text-accent">Pemesanan & Layanan</h2>
-                    <div class="lg:flex lg:space-x-8">
-                        <!-- Informasi Tiket & Fasilitas (3.c, 3.d) -->
-                        <div class="lg:w-1/2 mb-8 lg:mb-0">
-                            <h3 class="text-2xl font-semibold mb-4 dark:text-gray-100">Jadwal & Fasilitas Kunjungan</h3>
-                            <p class="mb-4">Jam Buka: 09:00 - 18:00 (Setiap Hari)</p>
-                            <ul class="list-disc list-inside space-y-2 dark:text-gray-300">
-                                <li>Tiket Dewasa Mulai dari €25</li>
-                                <li>Gratis Parkir Premium</li>
-                                <li>Akses Wi-Fi Kecepatan Tinggi</li>
-                                <li>Pemandu Wisata Multibahasa</li>
-                                <li>Area Istirahat Eksklusif</li>
-                            </ul>
-                            <!-- 3.l: Cuaca & Kondisi Terkini Widget Placeholder -->
-                            <div class="mt-6 p-4 bg-accent/10 dark:bg-accent/20 rounded-lg text-sm">
-                                <p class="font-medium text-accent">Cuaca Terkini: <span id="current-weather">21°C, Cerah.</span></p>
-                                <p class="text-xs dark:text-gray-400">Kondisi: Normal. Tidak ada penundaan jadwal.</p>
-                            </div>
-                        </div>
-
-                        <!-- Form Pemesanan / Reservasi (3.h) -->
-                        <div class="lg:w-1/2">
-                            <h3 class="text-2xl font-semibold mb-4 dark:text-gray-100">Formulir Reservasi</h3>
-                            <form id="reservation-form" class="space-y-4">
-                                <input type="text" placeholder="Nama Lengkap" required class="form-input">
-                                <input type="email" placeholder="Email Aktif" required class="form-input">
-                                <input type="number" placeholder="Jumlah Pengunjung" required class="form-input">
-                                <input type="date" required class="form-input">
-                                <textarea placeholder="Pesan Khusus (Opsional)" class="form-input h-24"></textarea>
-                                <button type="submit" class="btn-primary w-full">Konfirmasi Reservasi</button>
-                            </form>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- 3.e: Event & Kegiatan Lokal -->
-                <section id="events" class="mb-20 animate-on-scroll">
-                    <h2 class="section-title">Event & Kegiatan Lokal</h2>
-                    <div class="grid md:grid-cols-2 gap-6">
-                        <div class="p-6 border border-gray-200 dark:border-gray-700 rounded-xl">
-                            <h3 class="text-xl font-semibold mb-2 dark:text-accent">Festival Anggur Veneto</h3>
-                            <p class="text-sm dark:text-gray-400 mb-2">Tanggal: 15-20 Oktober 2026</p>
-                            <p class="dark:text-gray-300">Nikmati koleksi anggur terbaik dari kawasan Veneto. Acara wajib bagi pecinta kuliner dan wine.</p>
-                        </div>
-                        <div class="p-6 border border-gray-200 dark:border-gray-700 rounded-xl">
-                            <h3 class="text-xl font-semibold mb-2 dark:text-accent">Pameran Desain Milan</h3>
-                            <p class="text-sm dark:text-gray-400 mb-2">Tanggal: 5-10 April 2026</p>
-                            <p class="dark:text-gray-300">Inovasi terbaru dalam mode, arsitektur, dan desain di ibukota mode dunia.</p>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- 2.g: Counter / Statistik (Bagian Tengah) -->
-                <section id="stats" class="mb-20 text-center py-16 bg-primary dark:bg-gray-900 rounded-xl animate-on-scroll">
-                    <h2 class="text-3xl font-bold mb-10 text-bg-light">Northern Italy dalam Angka</h2>
-                    <div class="grid grid-cols-3 gap-4 text-bg-light">
-                        <div>
-                            <p class="text-4xl font-extrabold text-accent" id="stat-1">0</p>
-                            <p class="mt-2 text-sm uppercase tracking-wider">Destinasi Populer</p>
-                        </div>
-                        <div>
-                            <p class="text-4xl font-extrabold text-accent" id="stat-2">0</p>
-                            <p class="mt-2 text-sm uppercase tracking-wider">Pengunjung Puas</p>
-                        </div>
-                        <div>
-                            <p class="text-4xl font-extrabold text-accent" id="stat-3">0</p>
-                            <p class="mt-2 text-sm uppercase tracking-wider">Tahun Beroperasi</p>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- 2.h: Map Integration Placeholder -->
-                <section id="map" class="mb-20 animate-on-scroll">
-                    <h2 class="section-title">Lokasi Kami</h2>
-                    <div class="h-96 w-full rounded-xl overflow-hidden shadow-xl border border-gray-200 dark:border-gray-700">
-                        <!-- Placeholder Iframe untuk Google Maps -->
-                        <iframe src="https://maps.google.com/maps?q=Milan,Italy&z=10&output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                    </div>
-                    <p class="mt-4 text-sm dark:text-gray-400 text-center">Jelajahi destinasi kami secara visual di peta interaktif.</p>
-                </section>
-
-                <!-- 1.f & 3.q: Contact Form & Form Saran -->
-                <section id="kontak" class="mb-20 animate-on-scroll">
-                    <h2 class="section-title">Hubungi Kami / Beri Penilaian</h2>
-                    <div class="max-w-3xl mx-auto bg-primary/5 dark:bg-gray-800 p-8 rounded-xl shadow-lg">
-                        <form id="contact-form" class="space-y-4">
-                            <p class="text-lg font-medium mb-4">Tim kami siap membantu perjalanan Anda.</p>
-                            <input type="text" placeholder="Nama Anda" required class="form-input">
-                            <input type="email" placeholder="Email Anda" required class="form-input">
-                            <!-- 3.q: Penilaian/Saran -->
-                            <div class="space-y-2">
-                                <label class="block dark:text-gray-300">Beri Penilaian (1-5 Bintang):</label>
-                                <select class="form-input" required>
-                                    <option>5 Bintang (Sangat Puas)</option>
-                                    <option>4 Bintang (Puas)</option>
-                                    <option>3 Bintang (Cukup)</option>
-                                    <option>2 Bintang (Kurang)</option>
-                                    <option>1 Bintang (Buruk)</option>
-                                </select>
-                            </div>
-                            <textarea placeholder="Saran / Pertanyaan Anda" required class="form-input h-32"></textarea>
-                            <button type="submit" class="btn-primary w-full">Kirim Pesan & Penilaian</button>
-                        </form>
-                    </div>
-                </section>
-
-            </div>
-
-            <!-- 1.d: Sidebar (Tampilan Desktop) -->
-            <div class="lg:w-1/4 mt-12 lg:mt-0">
-                <aside class="space-y-10">
-                    <!-- 3.g: Blog/Artikel Wisata Mini -->
-                    <div id="blog" class="p-6 bg-bg-light dark:bg-gray-800 rounded-xl shadow-md border-t-4 border-accent">
-                        <h3 class="text-xl font-semibold mb-4 text-primary dark:text-accent">Artikel Terbaru</h3>
-                        <ul class="space-y-4">
-                            <li><a href="#" class="sidebar-article-link">5 Danau Tersembunyi di Lombardia</a></li>
-                            <li><a href="#" class="sidebar-article-link">Panduan Kuliner Verona</a></li>
-                            <li><a href="#" class="sidebar-article-link">Sejarah Singkat Dolomiti</a></li>
-                        </ul>
-                    </div>
-
-                    <!-- 3.f & 3.k: Ulasan & Testimoni Pengunjung Otomatis (Carousel Simulation) -->
-                    <div class="p-6 bg-primary dark:bg-gray-900 rounded-xl shadow-md">
-                        <h3 class="text-xl font-semibold mb-4 text-bg-light">Testimoni Terbaik</h3>
-                        <div id="testimonial-carousel" class="relative overflow-hidden h-32">
-                            <!-- Testimoni akan dimasukkan oleh JS -->
-                            <p class="text-text-light italic" id="carousel-text">"Pemandangannya sungguh menakjubkan dan layanan yang diberikan sangat profesional."</p>
-                            <p class="text-accent mt-2 text-right font-medium" id="carousel-author">- Budi S. (Indonesia)</p>
-                        </div>
-                    </div>
-
-                    <!-- Tombol Cepat -->
-                    <div class="space-y-3">
-                        <button class="btn-sidebar-quick-link w-full">
-                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l-2 2m-2-2v10a1 1 0 01-1 1h-3"></path></svg>
-                            Cek Jadwal
-                        </button>
-                        <button class="btn-sidebar-quick-link w-full">
-                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            Fasilitas
-                        </button>
-                    </div>
-
-                </aside>
-            </div>
+        <div class="avatar-badge">
+         SMA Student ✨
         </div>
-
-    </main>
-
-    <!-- 1.c: Footer (Bagian Bawah Website) -->
-    <footer class="bg-primary dark:bg-black text-bg-light py-12">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
-                <div>
-                    <h4 class="text-lg font-semibold mb-4 text-accent">Northern Italia</h4>
-                    <p class="text-sm">Eksplorasi destinasi premium dengan layanan terbaik.</p>
-                </div>
-                <div>
-                    <h4 class="text-lg font-semibold mb-4">Navigasi</h4>
-                    <ul class="space-y-2 text-sm">
-                        <li><a href="#destinasi" class="footer-link">Destinasi</a></li>
-                        <li><a href="#reservasi" class="footer-link">Pemesanan</a></li>
-                        <li><a href="#kontak" class="footer-link">Kontak</a></li>
-                        <li><a href="#" class="footer-link">Kebijakan Privasi</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-lg font-semibold mb-4">Media Sosial</h4>
-                    <div class="flex space-x-3">
-                        <span class="social-icon">F</span>
-                        <span class="social-icon">I</span>
-                        <span class="social-icon">X</span>
-                        <span class="social-icon">Y</span>
-                    </div>
-                </div>
-                <div>
-                    <h4 class="text-lg font-semibold mb-4">Kontak Cepat</h4>
-                    <p class="text-sm">Email: info@northernitalia.com</p>
-                    <p class="text-sm">Telp: +39 012 345 6789</p>
-                </div>
-            </div>
-            <div class="border-t border-gray-700 pt-6 text-center text-sm">
-                &copy; 2024 Northern Italia. All Rights Reserved. Desain oleh Ahli Pemrograman.
-            </div>
-        </div>
-    </footer>
-
-    <!-- 2.c & 3.o: Chatbot / Live Chat Floating Button -->
-    <button id="chat-toggle" class="fixed bottom-6 right-6 p-4 rounded-full bg-accent text-bg-light shadow-xl hover:bg-yellow-700 transition duration-300 z-50">
-        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-    </button>
-
-    <!-- Chatbot Modal -->
-    <div id="chat-modal" class="fixed bottom-20 right-6 w-80 h-96 bg-bg-light dark:bg-gray-800 rounded-xl shadow-2xl z-50 hidden flex-col overflow-hidden">
-        <div class="bg-primary text-bg-light p-4 flex justify-between items-center rounded-t-xl">
-            <h5 class="font-semibold">Panduan Wisata AI</h5>
-            <button id="close-chat" class="text-bg-light hover:text-accent">&times;</button>
-        </div>
-        <div id="chat-body" class="flex-grow p-4 overflow-y-auto space-y-3">
-            <div class="chat-message bot">Halo! Saya GuideAI. Ada yang bisa saya bantu tentang Northern Italy?</div>
-        </div>
-        <div class="p-4 border-t border-gray-200 dark:border-gray-700 flex">
-            <input type="text" id="chat-input" placeholder="Tanyakan sesuatu..." class="flex-grow py-2 px-3 border border-gray-300 dark:border-gray-700 rounded-l-lg text-sm dark:bg-bg-dark focus:outline-none">
-            <button id="chat-send" class="bg-accent text-bg-light p-2 rounded-r-lg hover:bg-yellow-700 transition duration-300">Kirim</button>
-        </div>
+       </div>
+      </div>
+     </div>
     </div>
-
-
-    <!-- JavaScript untuk Fungsionalitas Modern -->
-    <script>
-        // Variabel global untuk status bahasa
-        let currentLang = 'ID';
-
-        // --- 2.a: Dark / Light Mode Toggle Logic ---
-        const toggleDarkMode = () => {
-            const body = document.body;
-            const isDark = body.classList.toggle('dark');
-            body.classList.toggle('light', !isDark);
-            
-            // Simpan preferensi pengguna di localStorage
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
-            
-            // Update ikon
-            document.getElementById('sun-icon').classList.toggle('hidden', isDark);
-            document.getElementById('moon-icon').classList.toggle('hidden', !isDark);
-        };
-
-        // Muat preferensi saat startup
-        document.addEventListener('DOMContentLoaded', () => {
-            const savedTheme = localStorage.getItem('theme');
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-            if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
-                document.body.classList.add('dark');
-                document.body.classList.remove('light');
-                document.getElementById('sun-icon').classList.remove('hidden');
-                document.getElementById('moon-icon').classList.add('hidden');
-            } else {
-                document.body.classList.add('light');
-                document.body.classList.remove('dark');
-                document.getElementById('sun-icon').classList.add('hidden');
-                document.getElementById('moon-icon').classList.remove('hidden');
-            }
-
-            document.getElementById('dark-mode-toggle').addEventListener('click', toggleDarkMode);
-            initializeInteractions();
-            animateCounters();
-            setupScrollAnimation();
-            startTestimonialCarousel();
-        });
-
-        // --- 1.d: Sidebar / Menu Mobile Logic ---
-        const initializeInteractions = () => {
-            const menuToggle = document.getElementById('menu-toggle');
-            const closeMenu = document.getElementById('close-menu');
-            const sidebar = document.getElementById('sidebar-menu');
-
-            menuToggle.addEventListener('click', () => sidebar.classList.add('active'));
-            closeMenu.addEventListener('click', () => sidebar.classList.remove('active'));
-
-            // Tutup sidebar saat link diklik (untuk navigasi)
-            document.querySelectorAll('.sidebar-link').forEach(link => {
-                link.addEventListener('click', () => sidebar.classList.remove('active'));
-            });
-        };
+   </section><!-- About Section -->
+   <section id="about" class="py-20 md:py-28 px-6 bg-white">
+    <div class="max-w-6xl mx-auto">
+     <div class="section-title"><span class="badge">📖 Tentang Saya</span>
+      <h2>Mengenal Lebih Dekat</h2>
+      <p>Seorang siswa SMA dengan passion di public speaking dan web design, terus belajar dan berkembang</p>
+     </div>
+     <div class="grid md:grid-cols-2 gap-12 items-center">
+      <div>
+       <div class="card-modern mb-6">
+        <h3 class="text-xl font-bold mb-3" style="color: #FF6B6B;">🎯 Latar Belakang</h3>
+        <p id="about-description" class="opacity-80" style="color: #2D3436; line-height: 1.8;">Saya adalah siswa SMA yang sedang menempuh pendidikan dengan fokus pada pengembangan diri melalui public speaking dan desain web. Saya percaya bahwa setiap individu memiliki potensi untuk berkembang dengan pengalaman praktis langsung.</p>
+       </div>
+       <div class="card-modern">
+        <h3 class="text-xl font-bold mb-4" style="color: #FF6B6B;">✨ Keunggulan Pribadi</h3>
+        <p id="about-strength" class="opacity-80" style="color: #2D3436; line-height: 1.8;">Saya mampu dan dapat menjaga ketenangan ketika berdiri di hadapan banyak orang. Kemampuan ini menjadi fondasi dalam public speaking dan komunikasi yang efektif.</p>
+       </div>
+      </div>
+      <div class="space-y-4">
+       <div class="card-modern">
+        <h3 class="text-xl font-bold mb-4 flex items-center gap-2" style="color: #FF6B6B;"><span>🎓</span> Pendidikan</h3>
+        <p id="about-education" class="opacity-80" style="color: #2D3436;">Sedang menempuh pendidikan di jenjang SMA</p>
+        <p class="text-sm mt-2 opacity-60" style="color: #666;">SMA Negeri 1 Subang</p>
+       </div>
+       <div class="card-modern">
+        <h3 class="text-xl font-bold mb-3 flex items-center gap-2" style="color: #4ECDC4;"><span>🎤</span> Keahlian Utama</h3>
+        <div class="flex flex-wrap gap-2"><span class="badge">Public Speaking</span> <span class="badge badge-secondary">Web Design</span>
+        </div>
+       </div>
+       <div class="card-modern">
+        <h3 class="text-xl font-bold mb-3 flex items-center gap-2" style="color: #FFD93D;"><span>🔥</span> Motivasi</h3>
+        <p class="opacity-80 text-sm" style="color: #2D3436;">Terus belajar, berkembang, dan membuat dampak positif melalui komunikasi dan desain yang bermakna.</p>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Skills Section -->
+   <section id="skills" class="py-20 md:py-28 px-6 bg-section-light">
+    <div class="max-w-6xl mx-auto">
+     <div class="section-title"><span class="badge">💪 Keahlian Saya</span>
+      <h2>Skills &amp; Expertise</h2>
+      <p>Kombinasi hard skills dan soft skills untuk komunikasi dan desain yang efektif</p>
+     </div>
+     <div class="grid md:grid-cols-2 gap-12"><!-- Hard Skills -->
+      <div>
+       <h3 class="text-2xl font-bold mb-8 flex items-center gap-2" style="color: #FF6B6B;"><span>💻</span> Hard Skills</h3>
+       <div class="space-y-6">
+        <div>
+         <div class="flex justify-between mb-2"><span class="font-semibold" style="color: #2D3436;">HTML &amp; CSS</span> <span style="color: #FF6B6B; font-weight: 700;">85%</span>
+         </div>
+         <div class="skill-bar-bg">
+          <div class="skill-bar-fill" style="width: 85%;"></div>
+         </div>
+        </div>
+        <div>
+         <div class="flex justify-between mb-2"><span class="font-semibold" style="color: #2D3436;">Figma &amp; Design</span> <span style="color: #FF6B6B; font-weight: 700;">80%</span>
+         </div>
+         <div class="skill-bar-bg">
+          <div class="skill-bar-fill" style="width: 80%;"></div>
+         </div>
+        </div>
+        <div>
+         <div class="flex justify-between mb-2"><span class="font-semibold" style="color: #2D3436;">JavaScript</span> <span style="color: #FF6B6B; font-weight: 700;">70%</span>
+         </div>
+         <div class="skill-bar-bg">
+          <div class="skill-bar-fill" style="width: 70%;"></div>
+         </div>
+        </div>
+        <div>
+         <div class="flex justify-between mb-2"><span class="font-semibold" style="color: #2D3436;">UI/UX Design</span> <span style="color: #FF6B6B; font-weight: 700;">82%</span>
+         </div>
+         <div class="skill-bar-bg">
+          <div class="skill-bar-fill" style="width: 82%;"></div>
+         </div>
+        </div>
+       </div>
+      </div><!-- Soft Skills -->
+      <div>
+       <h3 class="text-2xl font-bold mb-8 flex items-center gap-2" style="color: #4ECDC4;"><span>🧠</span> Soft Skills</h3>
+       <div class="grid grid-cols-2 gap-4">
+        <div class="card-modern text-center"><span class="text-4xl mb-3 block">🎤</span>
+         <h4 class="font-bold mb-1" style="color: #FF6B6B;">Public Speaking</h4>
+         <p class="text-xs opacity-70">Percaya Diri</p>
+        </div>
+        <div class="card-modern text-center"><span class="text-4xl mb-3 block">💬</span>
+         <h4 class="font-bold mb-1" style="color: #4ECDC4;">Komunikasi</h4>
+         <p class="text-xs opacity-70">Efektif &amp; Jelas</p>
+        </div>
+        <div class="card-modern text-center"><span class="text-4xl mb-3 block">🤝</span>
+         <h4 class="font-bold mb-1" style="color: #FFD93D;">Kerja Tim</h4>
+         <p class="text-xs opacity-70">Kolaboratif</p>
+        </div>
+        <div class="card-modern text-center"><span class="text-4xl mb-3 block">💡</span>
+         <h4 class="font-bold mb-1" style="color: #FF6B6B;">Kreativitas</h4>
+         <p class="text-xs opacity-70">Inovatif</p>
+        </div>
+        <div class="card-modern text-center"><span class="text-4xl mb-3 block">⏰</span>
+         <h4 class="font-bold mb-1" style="color: #4ECDC4;">Manajemen Waktu</h4>
+         <p class="text-xs opacity-70">Terorganisir</p>
+        </div>
+        <div class="card-modern text-center"><span class="text-4xl mb-3 block">🎯</span>
+         <h4 class="font-bold mb-1" style="color: #FFD93D;">Problem Solving</h4>
+         <p class="text-xs opacity-70">Analitis</p>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Portfolio Section -->
+   <section id="portfolio" class="py-20 md:py-28 px-6 bg-white">
+    <div class="max-w-6xl mx-auto">
+     <div class="section-title"><span class="badge">🎨 Karya Saya</span>
+      <h2>Portofolio &amp; Proyek</h2>
+      <p>Kumpulan karya nyata dari public speaking dan design projects</p>
+     </div>
+     <div class="portfolio-grid"><!-- Portfolio 1 -->
+      <div class="portfolio-card">
+       <div class="portfolio-img">
+        🎤
+       </div>
+       <div class="portfolio-content"><span class="badge badge-accent">Public Speaking</span>
+        <h3 class="text-lg font-bold mt-3 mb-2" style="color: #2D3436;">MC Acara Maulid Nabi</h3>
+        <p class="text-sm opacity-70" style="color: #2D3436; line-height: 1.6;">Sebagai master of ceremony dalam acara peringatan Maulid Nabi dengan audience ratusan orang</p>
+        <div class="mt-4 flex gap-2"><span class="text-xs px-2 py-1 bg-red-100 text-red-600 rounded-full">2024</span>
+        </div>
+       </div>
+      </div><!-- Portfolio 2 -->
+      <div class="portfolio-card">
+       <div class="portfolio-img">
+        ✨
+       </div>
+       <div class="portfolio-content"><span class="badge badge-secondary">Public Speaking</span>
+        <h3 class="text-lg font-bold mt-3 mb-2" style="color: #2D3436;">MC Isra Mi'raj Sekolah</h3>
+        <p class="text-sm opacity-70" style="color: #2D3436; line-height: 1.6;">Membawa acara Isra Mi'raj dengan presentasi yang engaging dan interaktif</p>
+        <div class="mt-4 flex gap-2"><span class="text-xs px-2 py-1 bg-red-100 text-red-600 rounded-full">2024</span>
+        </div>
+       </div>
+      </div><!-- Portfolio 3 -->
+      <div class="portfolio-card">
+       <div class="portfolio-img">
+        🏆
+       </div>
+       <div class="portfolio-content"><span class="badge" style="background: rgba(255, 217, 61, 0.2); color: #FFD93D;">Sertifikat</span>
+        <h3 class="text-lg font-bold mt-3 mb-2" style="color: #2D3436;">Basic Public Speaking</h3>
+        <p class="text-sm opacity-70" style="color: #2D3436; line-height: 1.6;">Lulus sertifikasi Basic Public Speaking dari De talk Academy</p>
+        <div class="mt-4 flex gap-2"><span class="text-xs px-2 py-1 bg-yellow-100 text-yellow-600 rounded-full">De Talk Academy</span>
+        </div>
+       </div>
+      </div><!-- Portfolio 4 -->
+      <div class="portfolio-card">
+       <div class="portfolio-img">
+        🎨
+       </div>
+       <div class="portfolio-content"><span class="badge" style="background: rgba(78, 205, 196, 0.2); color: #4ECDC4;">Design</span>
+        <h3 class="text-lg font-bold mt-3 mb-2" style="color: #2D3436;">Web Design Project</h3>
+        <p class="text-sm opacity-70" style="color: #2D3436; line-height: 1.6;">Menciptakan desain web modern dan user-friendly dengan fokus pada UX</p>
+        <div class="mt-4 flex gap-2"><span class="text-xs px-2 py-1 bg-green-100 text-green-600 rounded-full">Figma</span>
+        </div>
+       </div>
+      </div><!-- Portfolio 5 -->
+      <div class="portfolio-card">
+       <div class="portfolio-img">
+        🌟
+       </div>
+       <div class="portfolio-content"><span class="badge">Public Speaking</span>
+        <h3 class="text-lg font-bold mt-3 mb-2" style="color: #2D3436;">Subang Creative Week 2025</h3>
+        <p class="text-sm opacity-70" style="color: #2D3436; line-height: 1.6;">MC di acara Subang Creative Week 2025, menampilkan presentasi yang dinamis</p>
+        <div class="mt-4 flex gap-2"><span class="text-xs px-2 py-1 bg-purple-100 text-purple-600 rounded-full">2025</span>
+        </div>
+       </div>
+      </div><!-- Portfolio 6 -->
+      <div class="portfolio-card">
+       <div class="portfolio-img">
+        🎁
+       </div>
+       <div class="portfolio-content"><span class="badge" style="background: rgba(255, 107, 107, 0.2); color: #FF6B6B;">Lainnya</span>
+        <h3 class="text-lg font-bold mt-3 mb-2" style="color: #2D3436;">Portfolio Update 2025</h3>
+        <p class="text-sm opacity-70" style="color: #2D3436; line-height: 1.6;">Terus mengupdate dan menambah karya-karya terbaru sepanjang 2025</p>
+        <div class="mt-4 flex gap-2"><span class="text-xs px-2 py-1 bg-pink-100 text-pink-600 rounded-full">Coming Soon</span>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Experience Section -->
+   <section id="experience" class="py-20 md:py-28 px-6 bg-section-light">
+    <div class="max-w-6xl mx-auto">
+     <div class="section-title"><span class="badge">🏅 Prestasi &amp; Pengalaman</span>
+      <h2>Achievement Unlocked</h2>
+      <p>Perjalanan menuju kesuksesan dimulai dengan setiap pengalaman berharga</p>
+     </div>
+     <div class="grid md:grid-cols-2 gap-12"><!-- Experience Column -->
+      <div>
+       <h3 class="text-2xl font-bold mb-8 flex items-center gap-2" style="color: #FF6B6B;"><span>🌍</span> Pengalaman Organisasi</h3>
+       <div class="space-y-4">
+        <div class="card-modern">
+         <h4 class="font-bold mb-2" style="color: #FF6B6B;">Anggota OSIS</h4>
+         <p class="text-sm opacity-80">Tahun 2022/2023 - Aktif berkontribusi dalam kegiatan sekolah</p>
+        </div>
+        <div class="card-modern">
+         <h4 class="font-bold mb-2" style="color: #4ECDC4;">Pasukan Pengibar Bendera Pusaka</h4>
+         <p class="text-sm opacity-80">Provinsi Jawa Barat 2024 - Mewakili sekolah pada tingkat provinsi</p>
+        </div>
+       </div>
+      </div><!-- Achievement Column -->
+      <div>
+       <h3 class="text-2xl font-bold mb-8 flex items-center gap-2" style="color: #FFD93D;"><span>🏆</span> Prestasi &amp; Sertifikat</h3>
+       <div class="space-y-4">
+        <div class="card-modern">
+         <div class="flex items-start gap-3"><span class="text-2xl">⭐</span>
+          <div>
+           <h4 class="font-bold mb-1" style="color: #FF6B6B;">PASKIBRAKA Provinsi Jawa Barat</h4>
+           <p class="text-sm opacity-70">2024</p>
+          </div>
+         </div>
+        </div>
+        <div class="card-modern">
+         <div class="flex items-start gap-3"><span class="text-2xl">🥈</span>
+          <div>
+           <h4 class="font-bold mb-1" style="color: #FF6B6B;">Juara 2 Monolog FLS3N</h4>
+           <p class="text-sm opacity-70">Kabupaten Subang</p>
+          </div>
+         </div>
+        </div>
+        <div class="card-modern">
+         <div class="flex items-start gap-3"><span class="text-2xl">🥇</span>
+          <div>
+           <h4 class="font-bold mb-1" style="color: #4ECDC4;">Juara 1 Dai Komisariat</h4>
+           <p class="text-sm opacity-70">Subang</p>
+          </div>
+         </div>
+        </div>
+        <div class="card-modern">
+         <div class="flex items-start gap-3"><span class="text-2xl">🥉</span>
+          <div>
+           <h4 class="font-bold mb-1" style="color: #FFD93D;">Juara 3 Dai Kabupaten</h4>
+           <p class="text-sm opacity-70">Subang</p>
+          </div>
+         </div>
+        </div>
+        <div class="card-modern">
+         <div class="flex items-start gap-3"><span class="text-2xl">🥈</span>
+          <div>
+           <h4 class="font-bold mb-1" style="color: #FF6B6B;">Silver Medalist ISGC</h4>
+           <p class="text-sm opacity-70">Bahasa Inggris SMA - Indonesian Student Gold Championship</p>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Contact Section -->
+   <section id="contact" class="py-20 md:py-28 px-6 bg-section-dark relative overflow-hidden"><!-- Background Decoration -->
+    <div class="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-red-500 to-yellow-400 rounded-full opacity-10 blur-3xl"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-tr from-cyan-500 to-red-500 rounded-full opacity-10 blur-3xl"></div>
+    <div class="max-w-6xl mx-auto relative z-10">
+     <div class="section-title" style="color: white;"><span class="badge">💬 Mari Berkolaborasi</span>
+      <h2 style="color: white;">Hubungi Saya</h2>
+      <p style="color: rgba(255,255,255,0.7);">Tertarik untuk bekerja sama? Jangan ragu untuk menghubungi!</p>
+     </div>
+     <div class="grid md:grid-cols-2 gap-12"><!-- Contact Info -->
+      <div class="space-y-4">
+       <div class="card-dark">
+        <div class="flex items-start gap-4"><span class="text-3xl">✉️</span>
+         <div>
+          <h4 class="font-bold mb-1">Email</h4><a id="contact-email-link" href="mailto:spiritgintar02@gmail.com" class="opacity-80 hover:opacity-100 transition-opacity">spiritgintar02@gmail.com</a>
+         </div>
+        </div>
+       </div>
+       <div class="card-dark">
+        <div class="flex items-start gap-4"><span class="text-3xl">📱</span>
+         <div>
+          <h4 class="font-bold mb-1">WhatsApp</h4><a id="contact-phone-link" href="https://wa.me/6282120951842" target="_blank" rel="noopener noreferrer" class="opacity-80 hover:opacity-100 transition-opacity">082120951842</a>
+         </div>
+        </div>
+       </div>
+       <div class="card-dark">
+        <div class="flex items-start gap-4"><span class="text-3xl">📍</span>
+         <div>
+          <h4 class="font-bold mb-1">Lokasi</h4>
+          <p class="opacity-80">Subang, Jawa Barat, Indonesia</p>
+         </div>
+        </div>
+       </div><!-- Social Links -->
+       <div class="pt-4">
+        <h4 class="font-bold mb-4 text-white">Follow Me</h4>
+        <div class="flex gap-3"><a id="instagram-link" href="https://www.instagram.com/satryohardjo.gintar" target="_blank" rel="noopener noreferrer" class="card-dark w-12 h-12 flex items-center justify-center text-xl hover:scale-110 transition-transform">📸</a> <a id="github-link" href="https://github.com/gintar12-5" target="_blank" rel="noopener noreferrer" class="card-dark w-12 h-12 flex items-center justify-center text-xl hover:scale-110 transition-transform">💻</a>
+        </div>
+       </div>
+      </div><!-- Contact Form -->
+      <div class="card-dark">
+       <h3 class="text-2xl font-bold mb-6" style="color: white;">Kirim Pesan</h3>
+       <form id="contactForm" class="space-y-4">
+        <div><label class="block text-sm font-semibold mb-2" style="color: white;">Nama Lengkap</label> <input type="text" name="name" required class="form-input" placeholder="Masukkan nama Anda" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); color: white;">
+        </div>
+        <div><label class="block text-sm font-semibold mb-2" style="color: white;">Email</label> <input type="email" name="email" required class="form-input" placeholder="email@example.com" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); color: white;">
+        </div>
+        <div><label class="block text-sm font-semibold mb-2" style="color: white;">Subjek</label> <input type="text" name="subject" required class="form-input" placeholder="Subjek pesan" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); color: white;">
+        </div>
+        <div><label class="block text-sm font-semibold mb-2" style="color: white;">Pesan</label> <textarea name="message" rows="4" required class="form-input resize-none" placeholder="Tulis pesan Anda..." style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); color: white;"></textarea>
+        </div><button type="submit" class="btn-primary w-full">✉️ Kirim Pesan</button>
+       </form>
+       <div id="successMsg" class="hidden mt-6 p-4 rounded-12 text-center" style="background: rgba(78, 205, 196, 0.2); border: 2px solid #4ECDC4;"><span class="text-2xl">✅</span>
+        <p class="mt-2 font-semibold" style="color: #4ECDC4;">Pesan terkirim!</p>
+        <p class="text-sm opacity-80" style="color: white;">Saya akan segera menghubungi Anda</p>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section>
+  </main><!-- Footer -->
+  <footer class="py-12 px-6 border-t" style="background: #2D3436; border-color: rgba(255,255,255,0.1);">
+   <div class="max-w-6xl mx-auto">
+    <div class="grid md:grid-cols-3 gap-8 items-center"><!-- Logo -->
+     <div class="flex items-center gap-2">
+      <div class="w-10 h-10 bg-gradient-to-br from-red-500 to-yellow-400 rounded-full flex items-center justify-center"><span class="font-brand text-lg font-bold text-white">G</span>
+      </div>
+      <div>
+       <h4 id="footer-name" class="font-brand font-bold" style="color: white;">Gintar Nugroho</h4>
+       <p class="text-xs opacity-60" style="color: white;">Young Spirit</p>
+      </div>
+     </div><!-- Copyright -->
+     <div class="text-center">
+      <p class="text-sm opacity-70" style="color: white;">© Gintar Nugroho – <span id="yearFooter">2025</span></p>
+      <p class="text-xs opacity-60 mt-1" style="color: white;">Tugas PKWU - Personal Portfolio Website</p>
+     </div><!-- Social Links -->
+     <div class="flex justify-end gap-4"><a href="https://www.instagram.com/satryohardjo.gintar" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full flex items-center justify-center text-lg transition-transform hover:scale-110" style="background: rgba(255,255,255,0.1); color: #FF6B6B;">📸</a> <a href="https://github.com/gintar12-5" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full flex items-center justify-center text-lg transition-transform hover:scale-110" style="background: rgba(255,255,255,0.1); color: #4ECDC4;">💻</a> <a href="mailto:spiritgintar02@gmail.com" class="w-10 h-10 rounded-full flex items-center justify-center text-lg transition-transform hover:scale-110" style="background: rgba(255,255,255,0.1); color: #FFD93D;">✉️</a>
+     </div>
+    </div>
+   </div>
+  </footer>
+  <script>
+    // Language Translations
+    const translations = {
+      id: {
+        'nav.home': 'Home',
+        'nav.about': 'About',
+        'nav.skills': 'Skills',
+        'nav.portfolio': 'Portfolio',
+        'nav.experience': 'Experience',
+        'nav.contact': 'Contact',
+        'hero.welcome': '🚀 Selamat Datang di Dunia Saya',
+        'hero.role': 'Public Speaker & Web Designer',
+        'hero.intro': 'Membangun kepercayaan diri melalui pengalaman dan praktik langsung dengan berpikir dan bertindak bebas sesuai aturan',
+        'hero.portfolio': '📂 Lihat Portfolio',
+        'hero.contact': '💬 Hubungi Saya',
+        'hero.badge': 'Siswa SMA ✨',
         
-        // --- 2.d: Language Switcher Logic (Simulasi) ---
-        document.getElementById('lang-switcher').addEventListener('click', () => {
-            currentLang = currentLang === 'ID' ? 'EN' : 'ID';
-            document.getElementById('lang-switcher').textContent = currentLang === 'ID' ? 'ID/EN' : 'EN/ID';
-            const message = currentLang === 'ID' 
-                ? 'Bahasa diubah ke Indonesia. (Konten simulasi)' 
-                : 'Language switched to English. (Simulated content)';
-            showMessageBox(message);
-        });
+        'about.title': 'Mengenal Lebih Dekat',
+        'about.subtitle': 'Seorang siswa SMA dengan passion di public speaking dan web design',
+        'about.background': '📖 Tentang Saya',
+        'about.bg-title': '🎯 Latar Belakang',
+        'about.bg-desc': 'Saya adalah siswa SMA yang sedang menempuh pendidikan dengan fokus pada pengembangan diri melalui public speaking dan desain web. Saya percaya bahwa setiap individu memiliki potensi untuk berkembang dengan pengalaman praktis langsung.',
+        'about.strength-title': '✨ Keunggulan Pribadi',
+        'about.strength-desc': 'Saya mampu dan dapat menjaga ketenangan ketika berdiri di hadapan banyak orang. Kemampuan ini menjadi fondasi dalam public speaking dan komunikasi yang efektif.',
+        'about.education-title': '🎓 Pendidikan',
+        'about.education-desc': 'Sedang menempuh pendidikan di jenjang SMA',
+        'about.education-school': 'SMA Negeri 1 Subang',
+        'about.skill-title': '🎤 Keahlian Utama',
+        'about.motivation-title': '🔥 Motivasi',
+        'about.motivation-desc': 'Terus belajar, berkembang, dan membuat dampak positif melalui komunikasi dan desain yang bermakna.',
         
-        // --- Custom Modal/Message Box (Pengganti alert()) ---
-        const showMessageBox = (message) => {
-            console.log("Pesan Sistem: " + message);
-            // Dalam implementasi nyata, ini akan menampilkan modal/toast di UI.
-            // Untuk prototipe ini, kita gunakan console log dan placeholder.
-            alert(message); // Menggunakan alert sementara untuk demonstrasi fitur
-        };
-
-        // --- 2.g: Counter / Statistik Animation ---
-        const animateCounter = (elementId, target) => {
-            const element = document.getElementById(elementId);
-            let count = 0;
-            const duration = 1500; // 1.5 detik
-            const step = target / (duration / 10); // Hitung langkah per 10ms
-
-            const timer = setInterval(() => {
-                count += step;
-                if (count >= target) {
-                    clearInterval(timer);
-                    count = target;
-                }
-                element.textContent = Math.floor(count).toLocaleString('id-ID');
-            }, 10);
-        };
-
-        const animateCounters = () => {
-            animateCounter('stat-1', 45); // Destinasi Populer
-            animateCounter('stat-2', 12500); // Pengunjung Puas
-            animateCounter('stat-3', 15); // Tahun Beroperasi
-        };
-
-        // --- 3.k: Testimonial Carousel Simulation ---
-        const testimonials = [
-            { text: "Pemandangannya sungguh menakjubkan dan layanan yang diberikan sangat profesional.", author: "- Budi S. (Indonesia)" },
-            { text: "A truly unforgettable experience. The Dolomites were breathtaking.", author: "- Jane D. (USA)" },
-            { text: "Il Duomo di Milano è magnifico! Torneremo presto.", author: "- Giovanni R. (Italia)" }
-        ];
-
-        let currentTestimonial = 0;
-        const startTestimonialCarousel = () => {
-            const textElement = document.getElementById('carousel-text');
-            const authorElement = document.getElementById('carousel-author');
-
-            setInterval(() => {
-                currentTestimonial = (currentTestimonial + 1) % testimonials.length;
-                const t = testimonials[currentTestimonial];
-
-                // Animasi fade out
-                textElement.style.opacity = '0';
-                authorElement.style.opacity = '0';
-
-                setTimeout(() => {
-                    textElement.textContent = t.text;
-                    authorElement.textContent = t.author;
-                    // Animasi fade in
-                    textElement.style.opacity = '1';
-                    authorElement.style.opacity = '1';
-                }, 500); // Tunggu setengah detik untuk fade out
-            }, 5000); // Ganti setiap 5 detik
-        };
-
-        // --- 2.b: Scroll Animation / Parallax Simulation (Intersection Observer) ---
-        const setupScrollAnimation = () => {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('animate-slide-up');
-                        entry.target.style.opacity = '1';
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, {
-                rootMargin: '0px',
-                threshold: 0.1
-            });
-
-            document.querySelectorAll('.animate-on-scroll').forEach(element => {
-                element.style.opacity = '0'; // Sembunyikan secara default
-                observer.observe(element);
-            });
-        };
-
-        // --- 2.c & 3.o: Chatbot / Live Chat Logic ---
-        const chatToggle = document.getElementById('chat-toggle');
-        const chatModal = document.getElementById('chat-modal');
-        const closeChat = document.getElementById('close-chat');
-        const chatBody = document.getElementById('chat-body');
-        const chatInput = document.getElementById('chat-input');
-        const chatSend = document.getElementById('chat-send');
-
-        chatToggle.addEventListener('click', () => chatModal.classList.toggle('hidden'));
-        closeChat.addEventListener('click', () => chatModal.classList.add('hidden'));
-        chatSend.addEventListener('click', () => handleChat());
-        chatInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') handleChat();
-        });
-
-        const handleChat = () => {
-            const message = chatInput.value.trim();
-            if (message === '') return;
-
-            // Tampilkan pesan pengguna
-            appendMessage(message, 'user');
-            chatInput.value = '';
-
-            // Simulasi balasan Chatbot
-            setTimeout(() => {
-                let botResponse = 'Saya belum mengerti pertanyaan Anda. Coba tanyakan tentang "tiket" atau "destinasi".';
-                const lowerMsg = message.toLowerCase();
-
-                if (lowerMsg.includes('tiket') || lowerMsg.includes('harga')) {
-                    botResponse = 'Informasi tiket dapat Anda temukan di bagian Reservasi. Tiket dewasa mulai dari €25.';
-                } else if (lowerMsg.includes('destinasi') || lowerMsg.includes('tempat')) {
-                    botResponse = 'Kami merekomendasikan Dolomiti, Milan, dan Venesia. Ingin detail salah satunya?';
-                } else if (lowerMsg.includes('cuaca')) {
-                    botResponse = document.getElementById('current-weather').textContent;
-                } else if (lowerMsg.includes('terima kasih')) {
-                    botResponse = 'Sama-sama! Senang melayani Anda.';
-                }
-                
-                appendMessage(botResponse, 'bot');
-            }, 1000);
-        };
-
-        const appendMessage = (text, sender) => {
-            const msgDiv = document.createElement('div');
-            msgDiv.classList.add('chat-message', sender, 'p-3', 'rounded-lg', 'max-w-[80%]', 'shadow-sm');
-            msgDiv.textContent = text;
-
-            if (sender === 'user') {
-                msgDiv.classList.add('bg-accent/80', 'text-bg-light', 'ml-auto');
-            } else {
-                msgDiv.classList.add('bg-gray-200', 'dark:bg-gray-700', 'text-text-dark', 'dark:text-text-light', 'mr-auto');
-            }
-            chatBody.appendChild(msgDiv);
-            chatBody.scrollTop = chatBody.scrollHeight; // Auto-scroll
-        };
+        'skills.title': 'Skills & Expertise',
+        'skills.subtitle': 'Kombinasi hard skills dan soft skills untuk komunikasi dan desain yang efektif',
+        'skills.hard': '💻 Hard Skills',
+        'skills.soft': '🧠 Soft Skills',
+        'skills.html': 'HTML & CSS',
+        'skills.figma': 'Figma & Design',
+        'skills.js': 'JavaScript',
+        'skills.uiux': 'UI/UX Design',
+        'skills.speaking': 'Public Speaking',
+        'skills.speaking-desc': 'Percaya Diri',
+        'skills.comm': 'Komunikasi',
+        'skills.comm-desc': 'Efektif & Jelas',
+        'skills.teamwork': 'Kerja Tim',
+        'skills.teamwork-desc': 'Kolaboratif',
+        'skills.creative': 'Kreativitas',
+        'skills.creative-desc': 'Inovatif',
+        'skills.time': 'Manajemen Waktu',
+        'skills.time-desc': 'Terorganisir',
+        'skills.problem': 'Problem Solving',
+        'skills.problem-desc': 'Analitis',
         
-        // --- 3.i: Virtual Tour Placeholder Function ---
-        const openVirtualTour = () => {
-            showMessageBox("Memuat Virtual Tour 360°... (Ini adalah simulasi, akan diarahkan ke halaman virtual tour di implementasi penuh.)");
-        };
+        'portfolio.title': 'Portofolio & Proyek',
+        'portfolio.subtitle': 'Kumpulan karya nyata dari public speaking dan design projects',
+        'portfolio.p1-title': 'MC Acara Maulid Nabi',
+        'portfolio.p1-desc': 'Sebagai master of ceremony dalam acara peringatan Maulid Nabi dengan audience ratusan orang',
+        'portfolio.p2-title': 'MC Isra Mi\'raj Sekolah',
+        'portfolio.p2-desc': 'Membawa acara Isra Mi\'raj dengan presentasi yang engaging dan interaktif',
+        'portfolio.p3-title': 'Basic Public Speaking',
+        'portfolio.p3-desc': 'Lulus sertifikasi Basic Public Speaking dari De talk Academy',
+        'portfolio.p4-title': 'Web Design Project',
+        'portfolio.p4-desc': 'Menciptakan desain web modern dan user-friendly dengan fokus pada UX',
+        'portfolio.p5-title': 'Subang Creative Week 2025',
+        'portfolio.p5-desc': 'MC di acara Subang Creative Week 2025, menampilkan presentasi yang dinamis',
+        'portfolio.p6-title': 'Portfolio Update 2025',
+        'portfolio.p6-desc': 'Terus mengupdate dan menambah karya-karya terbaru sepanjang 2025',
+        
+        'experience.title': 'Achievement Unlocked',
+        'experience.subtitle': 'Perjalanan menuju kesuksesan dimulai dengan setiap pengalaman berharga',
+        'experience.org': '🌍 Pengalaman Organisasi',
+        'experience.osis': 'Anggota OSIS',
+        'experience.osis-desc': 'Tahun 2022/2023 - Aktif berkontribusi dalam kegiatan sekolah',
+        'experience.paskibraka': 'Pasukan Pengibar Bendera Pusaka',
+        'experience.paskibraka-desc': 'Provinsi Jawa Barat 2024 - Mewakili sekolah pada tingkat provinsi',
+        'experience.achievement': '🏆 Prestasi & Sertifikat',
+        'experience.a1': 'PASKIBRAKA Provinsi Jawa Barat',
+        'experience.a2': 'Juara 2 Monolog FLS3N',
+        'experience.a3': 'Juara 1 Dai Komisariat',
+        'experience.a4': 'Juara 3 Dai Kabupaten',
+        'experience.a5': 'Silver Medalist ISGC',
+        'experience.a5-desc': 'Bahasa Inggris SMA - Indonesian Student Gold Championship',
+        
+        'contact.title': 'Mari Berkolaborasi',
+        'contact.subtitle': 'Tertarik untuk bekerja sama? Jangan ragu untuk menghubungi!',
+        'contact.email': 'Email',
+        'contact.phone': 'WhatsApp',
+        'contact.location': 'Lokasi',
+        'contact.location-desc': 'Subang, Jawa Barat, Indonesia',
+        'contact.follow': 'Follow Me',
+        'contact.form-title': 'Kirim Pesan',
+        'contact.name': 'Nama Lengkap',
+        'contact.name-ph': 'Masukkan nama Anda',
+        'contact.email-ph': 'email@example.com',
+        'contact.subject': 'Subjek',
+        'contact.subject-ph': 'Subjek pesan',
+        'contact.message': 'Pesan',
+        'contact.message-ph': 'Tulis pesan Anda...',
+        'contact.send': '✉️ Kirim Pesan',
+        'contact.success': '✅',
+        'contact.success-title': 'Pesan terkirim!',
+        'contact.success-desc': 'Saya akan segera menghubungi Anda',
+        
+        'footer.copyright': '© Gintar Nugroho – ',
+        'footer.task': 'Tugas PKWU - Personal Portfolio Website'
+      },
+      en: {
+        'nav.home': 'Home',
+        'nav.about': 'About',
+        'nav.skills': 'Skills',
+        'nav.portfolio': 'Portfolio',
+        'nav.experience': 'Experience',
+        'nav.contact': 'Contact',
+        'hero.welcome': '🚀 Welcome to My World',
+        'hero.role': 'Public Speaker & Web Designer',
+        'hero.intro': 'Building confidence through experience and hands-on practice by thinking and acting freely according to the rules',
+        'hero.portfolio': '📂 View Portfolio',
+        'hero.contact': '💬 Contact Me',
+        'hero.badge': 'High School Student ✨',
+        
+        'about.title': 'Get to Know Me Better',
+        'about.subtitle': 'A high school student with passion in public speaking and web design',
+        'about.background': '📖 About Me',
+        'about.bg-title': '🎯 Background',
+        'about.bg-desc': 'I am a high school student currently pursuing education with a focus on personal development through public speaking and web design. I believe that every individual has the potential to grow through direct practical experience.',
+        'about.strength-title': '✨ Personal Strength',
+        'about.strength-desc': 'I am able to maintain calmness when standing in front of many people. This ability is the foundation for public speaking and effective communication.',
+        'about.education-title': '🎓 Education',
+        'about.education-desc': 'Currently pursuing high school education',
+        'about.education-school': 'SMA Negeri 1 Subang',
+        'about.skill-title': '🎤 Main Skills',
+        'about.motivation-title': '🔥 Motivation',
+        'about.motivation-desc': 'Keep learning, developing, and making a positive impact through meaningful communication and design.',
+        
+        'skills.title': 'Skills & Expertise',
+        'skills.subtitle': 'A combination of hard skills and soft skills for effective communication and design',
+        'skills.hard': '💻 Hard Skills',
+        'skills.soft': '🧠 Soft Skills',
+        'skills.html': 'HTML & CSS',
+        'skills.figma': 'Figma & Design',
+        'skills.js': 'JavaScript',
+        'skills.uiux': 'UI/UX Design',
+        'skills.speaking': 'Public Speaking',
+        'skills.speaking-desc': 'Confident',
+        'skills.comm': 'Communication',
+        'skills.comm-desc': 'Effective & Clear',
+        'skills.teamwork': 'Teamwork',
+        'skills.teamwork-desc': 'Collaborative',
+        'skills.creative': 'Creativity',
+        'skills.creative-desc': 'Innovative',
+        'skills.time': 'Time Management',
+        'skills.time-desc': 'Organized',
+        'skills.problem': 'Problem Solving',
+        'skills.problem-desc': 'Analytical',
+        
+        'portfolio.title': 'Portfolio & Projects',
+        'portfolio.subtitle': 'Collection of real work from public speaking and design projects',
+        'portfolio.p1-title': 'MC for Maulid Nabi Event',
+        'portfolio.p1-desc': 'Served as master of ceremony for the Prophet Muhammad\'s Birthday commemoration with hundreds of attendees',
+        'portfolio.p2-title': 'MC for Isra Mi\'raj School Event',
+        'portfolio.p2-desc': 'Hosted the Isra Mi\'raj event with engaging and interactive presentation',
+        'portfolio.p3-title': 'Basic Public Speaking',
+        'portfolio.p3-desc': 'Passed Basic Public Speaking certification from De talk Academy',
+        'portfolio.p4-title': 'Web Design Project',
+        'portfolio.p4-desc': 'Created modern and user-friendly web design with focus on UX',
+        'portfolio.p5-title': 'Subang Creative Week 2025',
+        'portfolio.p5-desc': 'MC at Subang Creative Week 2025, presenting dynamic presentation',
+        'portfolio.p6-title': 'Portfolio Update 2025',
+        'portfolio.p6-desc': 'Continuously updating and adding latest works throughout 2025',
+        
+        'experience.title': 'Achievement Unlocked',
+        'experience.subtitle': 'The journey to success begins with every valuable experience',
+        'experience.org': '🌍 Organizational Experience',
+        'experience.osis': 'OSIS Member',
+        'experience.osis-desc': 'Year 2022/2023 - Actively contributed to school activities',
+        'experience.paskibraka': 'Flag Hoisting Ceremony Team',
+        'experience.paskibraka-desc': 'West Java Province 2024 - Represented school at provincial level',
+        'experience.achievement': '🏆 Achievement & Certificates',
+        'experience.a1': 'PASKIBRAKA West Java Province',
+        'experience.a2': '2nd Place Monolog FLS3N',
+        'experience.a3': '1st Place Dai Commissariat',
+        'experience.a4': '3rd Place Dai District',
+        'experience.a5': 'Silver Medalist ISGC',
+        'experience.a5-desc': 'English Study - Indonesian Student Gold Championship',
+        
+        'contact.title': 'Let\'s Collaborate',
+        'contact.subtitle': 'Interested in working together? Don\'t hesitate to contact me!',
+        'contact.email': 'Email',
+        'contact.phone': 'WhatsApp',
+        'contact.location': 'Location',
+        'contact.location-desc': 'Subang, West Java, Indonesia',
+        'contact.follow': 'Follow Me',
+        'contact.form-title': 'Send a Message',
+        'contact.name': 'Full Name',
+        'contact.name-ph': 'Enter your name',
+        'contact.email-ph': 'email@example.com',
+        'contact.subject': 'Subject',
+        'contact.subject-ph': 'Message subject',
+        'contact.message': 'Message',
+        'contact.message-ph': 'Write your message...',
+        'contact.send': '✉️ Send Message',
+        'contact.success': '✅',
+        'contact.success-title': 'Message sent!',
+        'contact.success-desc': 'I will contact you soon',
+        
+        'footer.copyright': '© Gintar Nugroho – ',
+        'footer.task': 'PKWU Assignment - Personal Portfolio Website'
+      }
+    };
 
-        // --- Gaya untuk elemen-elemen berulang (didefinisikan dalam JS untuk kebersihan) ---
-        // Catatan: Dalam produksi, ini lebih baik diintegrasikan ke dalam konfigurasi tailwind.config
+    // Current Language
+    let currentLang = 'id';
 
-        const styleSheet = document.createElement("style");
-        styleSheet.textContent = `
-            .nav-link {
-                @apply hover:text-accent dark:hover:text-accent font-medium transition duration-300 p-2 rounded-lg;
-            }
-            .btn-primary {
-                @apply bg-accent text-bg-light font-bold py-3 px-8 rounded-full shadow-lg hover:bg-yellow-700 transition duration-300 flex items-center justify-center mx-auto lg:mx-0;
-            }
-            .btn-secondary {
-                @apply border border-accent text-accent font-bold py-3 px-8 rounded-full shadow-md hover:bg-accent hover:text-bg-light transition duration-300;
-            }
-            .btn-sidebar-quick-link {
-                @apply bg-primary/10 dark:bg-gray-700 text-primary dark:text-gray-300 font-medium py-3 px-4 rounded-xl hover:bg-accent/20 dark:hover:bg-accent/40 transition duration-300 flex items-center justify-center text-sm;
-            }
-            .section-title {
-                @apply text-3xl sm:text-4xl font-extrabold mb-4 border-b-2 border-accent inline-block pb-1 text-primary dark:text-bg-light;
-            }
-            .form-input {
-                @apply w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-accent focus:border-accent dark:bg-gray-700 dark:text-text-light transition duration-300;
-            }
-            .gallery-img {
-                @apply object-cover rounded-xl shadow-md hover:scale-[1.02] transition-transform duration-500 cursor-pointer;
-            }
-            .share-icon {
-                @apply w-8 h-8 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700 text-sm font-bold text-primary dark:text-accent hover:bg-accent hover:text-bg-light cursor-pointer transition;
-            }
-            .footer-link {
-                @apply hover:text-accent transition duration-300;
-            }
-            .social-icon {
-                @apply w-8 h-8 flex items-center justify-center rounded-full bg-accent text-primary dark:text-bg-light hover:scale-110 transition duration-300 font-bold;
-            }
-            .sidebar-article-link {
-                @apply text-sm text-primary dark:text-gray-300 hover:text-accent transition duration-300 block font-medium;
-            }
-            
-        `;
-        document.head.appendChild(styleSheet);
-    </script>
-</body>
+    // Update Language Function
+    function updateLanguage(lang) {
+      currentLang = lang;
+      localStorage.setItem('preferredLanguage', lang);
+      
+      // Update all elements with data-i18n
+      document.querySelectorAll('[data-i18n]').forEach(element => {
+        const key = element.getAttribute('data-i18n');
+        const text = translations[lang][key];
+        
+        if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+          element.placeholder = text;
+        } else {
+          element.textContent = text;
+        }
+      });
+      
+      // Update button states
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      document.getElementById(`langBtn-${lang}`).classList.add('active');
+      document.getElementById(`langBtn-${lang}-mobile`)?.classList.add('active');
+      
+      if (lang === 'id') {
+        document.getElementById('langBtn-id').style.background = 'linear-gradient(135deg, #FF6B6B, #FFD93D)';
+        document.getElementById('langBtn-id').style.color = 'white';
+        document.getElementById('langBtn-id').style.opacity = '1';
+        document.getElementById('langBtn-en').style.background = 'transparent';
+        document.getElementById('langBtn-en').style.color = '#2D3436';
+        document.getElementById('langBtn-en').style.opacity = '0.6';
+        
+        document.getElementById('langBtn-id-mobile').style.background = 'linear-gradient(135deg, #FF6B6B, #FFD93D)';
+        document.getElementById('langBtn-id-mobile').style.color = 'white';
+        document.getElementById('langBtn-id-mobile').style.opacity = '1';
+        document.getElementById('langBtn-en-mobile').style.background = 'transparent';
+        document.getElementById('langBtn-en-mobile').style.color = '#2D3436';
+        document.getElementById('langBtn-en-mobile').style.opacity = '0.6';
+      } else {
+        document.getElementById('langBtn-en').style.background = 'linear-gradient(135deg, #FF6B6B, #FFD93D)';
+        document.getElementById('langBtn-en').style.color = 'white';
+        document.getElementById('langBtn-en').style.opacity = '1';
+        document.getElementById('langBtn-id').style.background = 'transparent';
+        document.getElementById('langBtn-id').style.color = '#2D3436';
+        document.getElementById('langBtn-id').style.opacity = '0.6';
+        
+        document.getElementById('langBtn-en-mobile').style.background = 'linear-gradient(135deg, #FF6B6B, #FFD93D)';
+        document.getElementById('langBtn-en-mobile').style.color = 'white';
+        document.getElementById('langBtn-en-mobile').style.opacity = '1';
+        document.getElementById('langBtn-id-mobile').style.background = 'transparent';
+        document.getElementById('langBtn-id-mobile').style.color = '#2D3436';
+        document.getElementById('langBtn-id-mobile').style.opacity = '0.6';
+      }
+    }
+
+    // Load saved language or default to Indonesian
+    window.addEventListener('load', () => {
+      const savedLang = localStorage.getItem('preferredLanguage') || 'id';
+      updateLanguage(savedLang);
+    });
+
+    // Language Button Events
+    document.getElementById('langBtn-id').addEventListener('click', () => updateLanguage('id'));
+    document.getElementById('langBtn-en').addEventListener('click', () => updateLanguage('en'));
+    document.getElementById('langBtn-id-mobile').addEventListener('click', () => updateLanguage('id'));
+    document.getElementById('langBtn-en-mobile').addEventListener('click', () => updateLanguage('en'));
+    
+    // Configuration
+    const defaultConfig = {
+      site_name: 'Gintar Nugroho Satryohardjo',
+      tagline: 'Young Spirit',
+      hero_role: 'Public Speaker & Web Designer',
+      hero_intro: 'Membangun kepercayaan diri melalui pengalaman dan praktik langsung dengan berpikir dan bertindak bebas sesuai aturan',
+      about_description: 'Saya adalah siswa SMA yang sedang menempuh pendidikan dengan fokus pada pengembangan diri melalui public speaking dan desain web. Saya percaya bahwa setiap individu memiliki potensi untuk berkembang dengan pengalaman praktis langsung.',
+      about_education: 'Sedang menempuh pendidikan di jenjang SMA',
+      about_strength: 'Saya mampu dan dapat menjaga ketenangan ketika berdiri di hadapan banyak orang',
+      contact_email: 'spiritgintar02@gmail.com',
+      contact_phone: '082120951842',
+      contact_instagram: 'satryohardjo.gintar',
+      contact_github: 'gintar12-5'
+    };
+
+    // Update Configuration
+    async function onConfigChange(config) {
+      document.getElementById('site-name').textContent = config.site_name || defaultConfig.site_name;
+      document.getElementById('tagline').textContent = config.tagline || defaultConfig.tagline;
+      document.getElementById('footer-name').textContent = config.site_name || defaultConfig.site_name;
+      
+      document.getElementById('hero-role').textContent = config.hero_role || defaultConfig.hero_role;
+      document.getElementById('hero-intro').textContent = config.hero_intro || defaultConfig.hero_intro;
+      
+      document.getElementById('about-description').textContent = config.about_description || defaultConfig.about_description;
+      document.getElementById('about-education').textContent = config.about_education || defaultConfig.about_education;
+      document.getElementById('about-strength').textContent = config.about_strength || defaultConfig.about_strength;
+      
+      document.getElementById('contact-email-link').href = `mailto:${config.contact_email || defaultConfig.contact_email}`;
+      document.getElementById('contact-email-link').textContent = config.contact_email || defaultConfig.contact_email;
+      
+      const phone = (config.contact_phone || defaultConfig.contact_phone).replace(/\D/g, '');
+      document.getElementById('contact-phone-link').href = `https://wa.me/${phone}`;
+      document.getElementById('contact-phone-link').textContent = config.contact_phone || defaultConfig.contact_phone;
+      
+      document.getElementById('instagram-link').href = `https://www.instagram.com/${config.contact_instagram || defaultConfig.contact_instagram}`;
+      document.getElementById('github-link').href = `https://github.com/${config.contact_github || defaultConfig.contact_github}`;
+    }
+
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [],
+        borderables: [],
+        fontEditable: undefined,
+        fontSizeable: undefined
+      };
+    }
+
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ['site_name', config.site_name || defaultConfig.site_name],
+        ['tagline', config.tagline || defaultConfig.tagline],
+        ['hero_role', config.hero_role || defaultConfig.hero_role],
+        ['hero_intro', config.hero_intro || defaultConfig.hero_intro],
+        ['about_description', config.about_description || defaultConfig.about_description],
+        ['about_education', config.about_education || defaultConfig.about_education],
+        ['about_strength', config.about_strength || defaultConfig.about_strength],
+        ['contact_email', config.contact_email || defaultConfig.contact_email],
+        ['contact_phone', config.contact_phone || defaultConfig.contact_phone],
+        ['contact_instagram', config.contact_instagram || defaultConfig.contact_instagram],
+        ['contact_github', config.contact_github || defaultConfig.contact_github]
+      ]);
+    }
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+
+    // Mobile Menu
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const closeMenuBtn = document.getElementById('closeMenuBtn');
+
+    mobileMenuBtn.addEventListener('click', () => mobileMenu.classList.add('active'));
+    closeMenuBtn.addEventListener('click', () => mobileMenu.classList.remove('active'));
+
+    document.querySelectorAll('.mobile-nav-link').forEach(link => {
+      link.addEventListener('click', () => mobileMenu.classList.remove('active'));
+    });
+
+    // Scroll Progress
+    window.addEventListener('scroll', () => {
+      const progress = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+      document.getElementById('scrollProgress').style.width = progress + '%';
+    });
+
+    // Contact Form
+    document.getElementById('contactForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      document.getElementById('contactForm').style.display = 'none';
+      document.getElementById('successMsg').classList.remove('hidden');
+      
+      setTimeout(() => {
+        document.getElementById('contactForm').reset();
+        document.getElementById('contactForm').style.display = 'block';
+        document.getElementById('successMsg').classList.add('hidden');
+      }, 3000);
+    });
+
+    // Header Shadow on Scroll
+    window.addEventListener('scroll', () => {
+      const header = document.getElementById('header');
+      if (window.scrollY > 50) {
+        header.style.boxShadow = '0 4px 20px rgba(0,0,0,0.1)';
+      } else {
+        header.style.boxShadow = '0 2px 10px rgba(0,0,0,0.05)';
+      }
+    });
+
+    // Set Year
+    document.getElementById('yearFooter').textContent = new Date().getFullYear();
+
+    // Smooth Scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // Form Input Styling
+    document.querySelectorAll('.form-input').forEach(input => {
+      input.addEventListener('focus', () => {
+        input.style.borderColor = '#FF6B6B';
+        input.style.boxShadow = '0 0 0 3px rgba(255, 107, 107, 0.1)';
+      });
+      
+      input.addEventListener('blur', () => {
+        input.style.borderColor = 'rgba(255,255,255,0.2)';
+        input.style.boxShadow = 'none';
+      });
+    });
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c8782b485d7a5e3',t:'MTc3MDE4MDI0My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
